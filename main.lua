@@ -123,19 +123,19 @@ return {
         local function transform_bitbucket(url)
 			-- ssh form: git@host:project/repo(.git)
 			local host, project, repo = url:match("^git@([^:]+):([^/]+)/([^%.]+)%.git$")
-			if host then
+			if host and ( host:match("bitbucket") or host:match("atlassian") ) then
 				return "https://" .. host .. "/projects/" .. project .. "/repos/" .. repo .. "/browse"
 			end
 
 			-- https form: https://host/scm/project/repo(.git)
 			host, project, repo = url:match("^https?://([^/]+)/scm/([^/]+)/([^%.]+)")
-			if host then
+			if host and ( host:match("bitbucket") or host:match("atlassian") ) then
 				return "https://" .. host .. "/projects/" .. project .. "/repos/" .. repo .. "/browse"
 			end
 
 			-- ssh with protocol (with or without port)
 			host, project, repo = url:match("^ssh://git@([^/]+)/([^/]+)/([^%.]+)%.git$")
-			if host then
+			if host and ( host:match("bitbucket") or host:match("atlassian") ) then
 				return "https://" .. host .. "/projects/" .. project .. "/repos/" .. repo .. "/browse"
 			end
 
